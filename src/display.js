@@ -6,6 +6,7 @@ import './App.css';
 
 const Display = (props) => {
   const [displayData, setDisplayData] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
 
   
@@ -15,6 +16,7 @@ const Display = (props) => {
       if(response.status === 200){
         console.log(response)
         setDisplayData(response.data)
+        setIsLoading(false)
       }else{
         setDisplayData(false)
         console.log('Error')
@@ -32,13 +34,17 @@ const Display = (props) => {
       <Row>
         <Col lg={10}>
             <div className="display-screen">
-                {displayData &&
-                <ListGroup>
-                    <ListGroupItem><b>Name</b> : {displayData.name}</ListGroupItem>
-                    <ListGroupItem><b>NASA JPL URL</b> : {displayData.nasa_jpl_url}</ListGroupItem>
-                    <ListGroupItem><b>IS HAZARDOUS ASTEROID</b> : {displayData.is_potentially_hazardous_asteroid? 'TRUE': 'FALSE'}</ListGroupItem>
-                </ListGroup> }
-                <Button onClick={() => props.history.goBack()}>Go Back</Button>
+                {isLoading ? 'Loading...': 
+                <>
+                    { displayData &&
+                    <ListGroup>
+                        <ListGroupItem><b>Name</b> : {displayData.name}</ListGroupItem>
+                        <ListGroupItem><b>NASA JPL URL</b> : {displayData.nasa_jpl_url}</ListGroupItem>
+                        <ListGroupItem><b>IS HAZARDOUS ASTEROID</b> : {displayData.is_potentially_hazardous_asteroid? 'TRUE': 'FALSE'}</ListGroupItem>
+                    </ListGroup> }
+                    <Button onClick={() => props.history.goBack()}>Go Back</Button>
+                </>
+                }
             </div>
         </Col>
       </Row>
